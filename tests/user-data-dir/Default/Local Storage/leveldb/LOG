@@ -1,0 +1,6 @@
+2022/05/03-11:50:36.879 6d74 Reusing MANIFEST C:\Users\stahl\OneDrive\Dokumente\GitHub\playwright\tests\user-data-dir\Default\Local Storage\leveldb/MANIFEST-000001
+2022/05/03-11:50:36.880 6d74 Recovering log #120
+2022/05/03-11:50:36.880 6d74 Reusing old log C:\Users\stahl\OneDrive\Dokumente\GitHub\playwright\tests\user-data-dir\Default\Local Storage\leveldb/000120.log 
+2022/05/03-11:50:42.767 63d0 Level-0 table #124: started
+2022/05/03-11:50:42.770 63d0 Level-0 table #124: 83738 bytes OK
+2022/05/03-11:50:42.772 63d0 Delete type=0 #120

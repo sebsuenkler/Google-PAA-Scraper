@@ -1,0 +1,20 @@
+[0503/113852.213:INFO:CONSOLE(0)] "Error with Permissions-Policy header: Origin trial controlled feature not enabled: 'interest-cohort'.", source:  (0)
+[0503/113852.216:INFO:CONSOLE(17)] "Uncaught ReferenceError: log is not defined", source:  (17)
+[0503/113852.218:INFO:CONSOLE(7)] "current window outer height 720", source:  (7)
+[0503/113852.218:INFO:CONSOLE(9)] "new window outer height 805", source:  (9)
+[0503/113852.218:INFO:CONSOLE(1)] "[object Object]", source:  (1)
+[0503/113852.347:INFO:CONSOLE(2)] "recaptchacompat disabled", source: https://cloudflare.hcaptcha.com/1/api.js?endpoint=https%3A%2F%2Fcloudflare.hcaptcha.com&assethost=https%3A%2F%2Fcf-assets.hcaptcha.com&imghost=https%3A%2F%2Fcf-imgs.hcaptcha.com&render=explicit&recaptchacompat=off&onload=_cf_chl_hload (2)
+[0503/113852.474:INFO:CONSOLE(17)] "Uncaught ReferenceError: log is not defined", source:  (17)
+[0503/113852.474:INFO:CONSOLE(7)] "current window outer height 720", source:  (7)
+[0503/113852.474:INFO:CONSOLE(9)] "new window outer height 85", source:  (9)
+[0503/113852.474:INFO:CONSOLE(1)] "[object Object]", source:  (1)
+[0503/113852.730:INFO:CONSOLE(17)] "Uncaught ReferenceError: log is not defined", source:  (17)
+[0503/113852.731:INFO:CONSOLE(7)] "current window outer height 720", source:  (7)
+[0503/113852.731:INFO:CONSOLE(9)] "new window outer height 85", source:  (9)
+[0503/113852.731:INFO:CONSOLE(1)] "[object Object]", source:  (1)
+[0503/113852.733:INFO:CONSOLE(1)] "[[[ERROR]]]: Message: Uncaught TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'Window'
+    --- property 'window' closes the circle - URL:  - Line: 3 - Column: 42768 - Error object: {} [object Object]", source: https://www.rewe.de/cdn-cgi/challenge-platform/h/g/orchestrate/managed/v1?ray=705806bd1d92727c (1)
+[0503/113852.733:INFO:CONSOLE(3)] "Uncaught TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'Window'
+    --- property 'window' closes the circle", source:  (3)

@@ -1,0 +1,14 @@
+2022/05/03-11:49:47.109 6b5c Reusing MANIFEST C:\Users\stahl\OneDrive\Dokumente\GitHub\playwright\tests\user-data-dir\Default\Local Storage\leveldb/MANIFEST-000001
+2022/05/03-11:49:47.110 6b5c Recovering log #117
+2022/05/03-11:49:47.110 6b5c Level-0 table #119: started
+2022/05/03-11:49:47.114 6b5c Level-0 table #119: 83964 bytes OK
+2022/05/03-11:49:47.116 6b5c Delete type=0 #117
+2022/05/03-11:49:47.116 6f28 Compacting 4@0 + 1@1 files
+2022/05/03-11:49:47.124 6f28 Generated table #121@0: 55 keys, 351953 bytes
+2022/05/03-11:49:47.124 6f28 Compacted 4@0 + 1@1 files => 351953 bytes
+2022/05/03-11:49:47.125 6f28 compacted to: files[ 0 1 0 0 0 0 0 ]
+2022/05/03-11:49:47.126 6f28 Delete type=2 #108
+2022/05/03-11:49:47.126 6f28 Delete type=2 #110
+2022/05/03-11:49:47.126 6f28 Delete type=2 #113
+2022/05/03-11:49:47.126 6f28 Delete type=2 #116
+2022/05/03-11:49:47.126 6f28 Delete type=2 #119
