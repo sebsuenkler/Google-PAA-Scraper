@@ -8,4 +8,3 @@
 *.html
 *.pdf
 !*query_list.xlsx
-tests/user-data-dir
