@@ -1,0 +1,11 @@
+*.DS_Store
+*venv*
+*__pycache__*
+*.log
+*.ipynb_checkpoints*
+*.png
+*.xlsx
+*.html
+*.pdf
+!*query_list.xlsx
+tests/user-data-dir
