@@ -7,4 +7,5 @@
 *.xlsx
 *.html
 *.pdf
+*.png
 !*query_list.xlsx

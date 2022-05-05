@@ -1,12 +1,17 @@
 import asyncio
+
+import random
+
+
 from playwright.async_api import async_playwright
-from playwright_stealth import stealth_async
 
 
 
-url ="https://www.rewe.de/angebote/nationale-angebote/?source=mc_offers"
 
-urls = ["https://www.rewe.de/angebote/nationale-angebote/?source=mc_offers", "https://spiegel.de"]
+
+#urls = ["https://www.rewe.de/angebote/nationale-angebote/?source=mc_offers", "https://spiegel.de", "https://bild.de", "https://haw-hamburg.de", "https://www.mediamarkt.de/de/product/_samsung-galaxy-a13-64-gb-black-dual-sim-2794341.html", "https://contabo.com/en/", "https://www.google.com/search?q=contabo"]
+
+urls = ["https://www.spiegel.de"]
 
 user_data_dir = r"C:\Users\SearchLabAdmin\Documents\GitHub\playwright\tests\user-data-dir"
 
@@ -16,7 +21,7 @@ path_to_extension = r"C:\Users\SearchLabAdmin\Documents\GitHub\playwright\tests\
 
 async def main():
 
-    i = 0
+    i = random.randint(0, 9999)
 
     for url in urls:
         print(url)
@@ -25,6 +30,7 @@ async def main():
                 user_data_dir
             )
             page = await browser.new_page()
+
             await page.goto(url, wait_until="load")
             document_height = await page.evaluate("document.body.scrollHeight")
             document_width = await page.evaluate("document.body.scrollWidth")
@@ -38,16 +44,11 @@ async def main():
 
             for b in range(0, blocks):
                 c = b * 500
-                print(c)
                 await page.evaluate("window.scrollTo(0, {});".format(c))
                 await page.wait_for_timeout(200)
 
 
             await page.set_viewport_size({"width": document_width, "height": document_height})
-
-
-            print(document_width)
-            print(document_height)
 
             await page.wait_for_timeout(5000)
 
@@ -56,6 +57,8 @@ async def main():
             i+=1
 
             file_name = str(i)+".png"
+
+            print(file_name)
 
             await page.screenshot(path=file_name)
             await browser.close()

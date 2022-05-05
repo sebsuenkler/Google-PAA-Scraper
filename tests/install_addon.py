@@ -20,6 +20,7 @@ async def main():
         )
         page = await browser.new_page()
         await page.goto(url, wait_until="load")
+        await page.wait_for_timeout(3000)
         await browser.close()
 
 
