@@ -1,3 +1,0 @@
-contile.services.mozilla.com:HSTS	0	19118	1683380930045,1,0,2
-location.services.mozilla.com:HSTS	0	19118	1683380926851,1,1,2
-www.rki.de^partitionKey=%28http%2Crki.de%29:HSTS	0	19118	1667915330358,1,0,2
