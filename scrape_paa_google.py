@@ -8,6 +8,9 @@ import string
 import asyncio
 from playwright.async_api import async_playwright, TimeoutError as PlaywrightTimeoutError
 
+from bs4 import BeautifulSoup
+
+
 def scrape_source(url):
     user_data_dir = create_user_dir()
 
@@ -16,10 +19,77 @@ def scrape_source(url):
         async with async_playwright() as p:
             browser = await p.firefox.launch_persistent_context(
                 user_data_dir,
-                headless=False,
+                headless=True,
             )
 
             page = await browser.new_page()
+
+            async def scrape_questions(page, counter):
+                await page.wait_for_timeout(1000)
+
+                i = counter
+
+                rows = page.locator(".r21Kzd")
+                count = await rows.count()
+
+                for i in range(i, count):
+                    await rows.nth(i).click()
+
+                rows = page.locator(".z9gcx.SVyP1c")
+                count = await rows.count()
+
+                i = counter
+
+                for i in range(i, count):
+                    print("\n")
+                    print(i)
+                    row = await rows.nth(i).evaluate("el => el.outerHTML")
+                    soup = BeautifulSoup(row, 'html.parser')
+                    li = soup.find_all("div", class_="z9gcx SVyP1c")
+                    for l in li:
+                        print("\n")
+                        try:
+                            q = l.find("span").get_text()
+                            print(q)
+                        except:
+                            print("no question")
+
+                        try:
+                            try:
+                                a = l.find("div", class_="LGOjhe")
+                                a2 = a.find("span", class_="hgKElc").get_text()
+                            except:
+                                try:
+                                    a2 = l.find("div", class_="RqBzHd").get_text()
+                                except:
+                                    try:
+                                        a2 = l.find("div", class_="NPb5dd").get_text()
+                                    except:
+                                        a2 = l.find("div", class_="Crs1tb").get_text()
+                            print(a2)
+                        except:
+                            print("no answer")
+                            print(soup)
+
+                        try:
+                            d = a.find("span", class_="kX21rb ZYHQ7e").get_text()
+                            print(d)
+                        except:
+                            print("no source date")
+
+                        try:
+                            try:
+                                s = l.find("div", class_="yuRUbf")
+                                s2 = s.find("a").get("href")
+                            except:
+                                s2 = l.find("a", class_="b0bgab").get("href")
+
+                            print(s2)
+                        except:
+                            print("no source")
+
+                return count
+
 
             try:
                 response = await page.goto(url, wait_until="networkidle")
@@ -37,35 +107,42 @@ def scrape_source(url):
 
             await page.keyboard.press("Enter")
 
-            await page.wait_for_timeout(1000)
+            counter = 0
 
-            rows = page.locator(".r21Kzd")
-            count = await rows.count()
-            for i in range(count):
-                print(i)
-                await rows.nth(i).click()
+            try:
+                counter = await scrape_questions(page, counter)
+                counter = await scrape_questions(page, counter)
+                counter = await scrape_questions(page, counter)
+                counter = await scrape_questions(page, counter)
+                counter = await scrape_questions(page, counter)
+            except Exceptions as e:
+                print(e)
 
-            await page.wait_for_timeout(1000)
+            if counter > 0:
+                pass
 
-            rows = page.locator(".r21Kzd")
-            count = await rows.count()
-            for i in range(count):
-                print(i)
-                await rows.nth(i).click()
+                # while counter < 5:
+                #     counter = await scrape_questions(page, counter)
+                #
+                #
+                # qa_content = await page.locator(".AuVD.cUnQKe").inner_html()
+                #
+                # soup = BeautifulSoup(qa_content, 'html.parser')
+                #
+                #
 
-            source = await page.content()
 
-            qa_content = await page.locator(".AuVD.cUnQKe").inner_html()
 
-            print(qa_content)
+                title = await page.title()
 
-            title = await page.title()
+                await page.wait_for_timeout(3000)
 
-            print(title)
+                # f = open("test.html", "w+")
+                # f.write(str(qa_content))
+                # f.close()
 
-            #print(source)
-
-            await page.wait_for_timeout(5000)
+            else:
+                print("no paa")
 
             await browser.close()
 
