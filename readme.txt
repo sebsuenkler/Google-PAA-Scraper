@@ -12,3 +12,6 @@ https://github.com/microsoft/playwright/issues/7297
 
 
 Immer ein neues user_data_dir Verzeichnis mit installierten Addons erstellen!
+
+statt headless? Tests mit Cloudflare... auf server
+xvfb-run python scrape_source.py

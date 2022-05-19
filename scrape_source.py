@@ -8,7 +8,12 @@ import string
 import asyncio
 from playwright.async_api import async_playwright, TimeoutError as PlaywrightTimeoutError
 
+from playwright_stealth import stealth_async
+
+#scrape source url
 def scrape_source(url):
+
+    #create user directory to install addons
     user_data_dir = create_user_dir()
 
     async def main():
@@ -16,11 +21,13 @@ def scrape_source(url):
         async with async_playwright() as p:
             browser = await p.firefox.launch_persistent_context(
                 user_data_dir,
-                headless=False,
+                headless=True,
             )
 
             page = await browser.new_page()
+            #await stealth_async(page)
 
+            #scroll document
             async def scroll_document(page):
 
                 document_height = await page.evaluate("document.body.scrollHeight")
@@ -44,13 +51,16 @@ def scrape_source(url):
             except PlaywrightTimeoutError:
                 response = await page.goto(url, wait_until="load")
 
+            #check status
             print(response.status)
 
+            #get real url
             print(response.url)
 
+            #check content-type
             print(response.headers["content-type"])
 
-
+            #check if file is a pdf
             if not "pdf" in response.headers["content-type"]:
 
                 await scroll_document(page)
@@ -61,13 +71,10 @@ def scrape_source(url):
 
                 print(title)
 
-                #print(source)
-
-
+                print(source)
 
                 def id_generator(size=5, chars=string.ascii_uppercase + string.digits):
                     return ''.join(random.choice(chars) for _ in range(size))
-
 
                 file_name = id_generator()+".png"
                 print(file_name)
@@ -85,8 +92,8 @@ def scrape_source(url):
 
                 await browser.close()
 
-
             else:
+                #if file is pdf use requests and store the content in file
                 await browser.close()
                 print("PDF")
                 from pathlib import Path
@@ -95,6 +102,7 @@ def scrape_source(url):
                 response = requests.get(url)
                 filename.write_bytes(response.content)
 
+            #remove temporary user directory with addons
             shutil.rmtree(user_data_dir)
 
 
@@ -103,9 +111,9 @@ def scrape_source(url):
 
 #urls = ["https://www.rewe.de/angebote/nationale-angebote/?source=mc_offers", "https://spiegel.de", "https://bild.de", "https://haw-hamburg.de", "https://www.mediamarkt.de/de/product/_samsung-galaxy-a13-64-gb-black-dual-sim-2794341.html", "https://contabo.com/en/", "https://www.google.com/search?q=contabo", "https://www.handelsblatt.com/arts_und_style/literatur/interview-richard-david-precht-seit-corona-erodiert-in-deutschland-einiges/27006328.html", "https://twitter.com/richardprecht"]
 
-#urls = ["https://twitter.com/richardprecht"]
+#urls = ["https://www.rewe.de/angebote/nationale-angebote/?source=mc_offers"]
 
-urls = ["https://www.rki.de/DE/Content/Infekt/Impfen/Materialien/Downloads-COVID-19/Aufklaerungsbogen-de.pdf?__blob=publicationFile"]
+urls = ["https://www.gbe-bund.de/pdf/GESBER2015.pdf"]
 
 for url in urls:
     scrape_source(url)

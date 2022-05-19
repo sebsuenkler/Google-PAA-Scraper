@@ -1,3 +1,4 @@
+#function to create the user directory with addons to make parallell calls of firefox
 import string
 import random
 import os

@@ -1,3 +1,5 @@
+#crawler for defu
+
 from create_user_dir import create_user_dir
 
 import os

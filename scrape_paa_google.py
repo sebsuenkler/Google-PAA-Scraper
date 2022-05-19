@@ -40,6 +40,7 @@ def scrape_source(url):
 
                 i = counter
 
+                #read questions and answers
                 for i in range(i, count):
                     print("\n")
                     print(i)
@@ -103,6 +104,7 @@ def scrape_source(url):
 
             print(response.headers["content-type"])
 
+            #simulate google search
             await page.fill('input[name="q"]', 'cats')
 
             await page.keyboard.press("Enter")
