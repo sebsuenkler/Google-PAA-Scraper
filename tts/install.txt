@@ -1,0 +1,17 @@
+https://www.youtube.com/watch?v=7xQAhQWhLHs
+
+https://stackoverflow.com/questions/53902065/how-do-i-record-system-audio-in-python-linux
+
+https://pypi.org/project/SoundCard/
+
+
+https://pypi.org/project/pynormalize/
+
+
+https://github.com/jiaaro/pydub#installation
+
+
+https://github.com/slhck/ffmpeg-normalize
+
+
+ffmpeg-normalize harry.mp3 -o 1.mp3 -c:a mp3 -f -t -5 

@@ -6,7 +6,7 @@ def newPage(page):
 with sync_playwright() as p:
     browser = p.chromium.launch(
         headless=False,
-        executable_path ='C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
+        executable_path ='C:\Program Files\Google\Chrome\Application\chrome.exe'
     )
     context = browser.new_context()
     page = context.new_page()
