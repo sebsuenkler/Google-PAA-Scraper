@@ -25,7 +25,7 @@ mixer.init() # Initialize the mixer, this will allow the next command to work
 print(sdl2.audio.get_audio_device_names(False)) # Returns playback devices, Boolean value determines whether they are Input or Output devices.
 mixer.quit() # Quit the mixer as it's initialized on your main playback device
 
-mixer.init(devicename = 'CABLE (VB-Audio Virtual Cable)') # Initialize it with the correct device
+mixer.init(devicename = 'Line (2- AG06/AG03)') # Initialize it with the correct device
 mixer.music.load("harry.mp3") # Load the mp3
 mixer.music.play() # Play it
 

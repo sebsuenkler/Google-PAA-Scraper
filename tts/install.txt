@@ -14,4 +14,18 @@ https://github.com/jiaaro/pydub#installation
 https://github.com/slhck/ffmpeg-normalize
 
 
-ffmpeg-normalize harry.mp3 -o 1.mp3 -c:a mp3 -f -t -5 
+ffmpeg-normalize harry.mp3 -o 1.mp3 -c:a mp3 -f -t -5
+
+
+https://permission.site/
+
+https://github.com/TaylorSMarks/playsound
+
+
+C:\Users\stahl\AppData\Local\ms-playwright
+
+
+mixer.init(devicename = 'CABLE (VB-Audio Virtual Cable)') # Initialize it with the correct device
+
+
+mixer.init(devicename = 'Line (2- AG06/AG03)') # Initialize it with the correct device
