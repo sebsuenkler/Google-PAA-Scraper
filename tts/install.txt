@@ -29,3 +29,9 @@ mixer.init(devicename = 'CABLE (VB-Audio Virtual Cable)') # Initialize it with t
 
 
 mixer.init(devicename = 'Line (2- AG06/AG03)') # Initialize it with the correct device
+
+
+https://github.com/machinalis/quepy
+
+
+https://github.com/google-research-datasets/tydiqa
