@@ -35,3 +35,38 @@ https://github.com/machinalis/quepy
 
 
 https://github.com/google-research-datasets/tydiqa
+
+
+conda create --name py37 python=3.7
+source activate py37
+
+# To activate this environment, use                                                                                     #                                                                                                                       #     $ conda activate $PYTHON36_ENV_NAME                                                                               #                                                                                                                       # To deactivate an active environment, use                                                                              #                                                                                                                       #     $ conda deactivate
+
+pip install git+https://github.com/ramsrigouthamg/Questgen.ai
+pip install git+https://github.com/boudinfl/pke.git@69337af9f9e72a25af6d7991eaa9869f1322dd72
+
+python -m nltk.downloader universal_tagset
+python -m spacy download en
+
+
+https://github.com/patil-suraj/question_generation
+
+follow up Questions
+https://github.com/nusnlp/LIF
+
+datensatz mit followup
+https://github.com/Guzpenha/MANtIS
+
+chatterbot:
+https://github.com/gunthercox/ChatterBot
+
+simple transformers:
+https://github.com/ThilinaRajapakse/simpletransformers
+
+datasets ai:
+https://github.com/PolyAI-LDN/conversational-datasets
+
+build a chatbot:
+https://medium.com/analytics-vidhya/building-a-simple-chatbot-in-python-using-nltk-7c8c8215ac6e
+https://github.com/parulnith/Building-a-Simple-Chatbot-in-Python-using-NLTK
+https://deeppavlov.ai/
