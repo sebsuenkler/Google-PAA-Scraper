@@ -1,0 +1,10 @@
+Harry Potter:
+https://www.wikidata.org/wiki/Q3244512
+
+Cat:
+https://www.wikidata.org/wiki/Q146
+
+https://github.com/siznax/wptools
+
+
+https://qanswer-frontend.univ-st-etienne.fr/

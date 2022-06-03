@@ -9,3 +9,6 @@
 *.pdf
 *.png
 !*query_list.xlsx
+*.exe
+diss/questgen/s2v_old/*
+*.gz
