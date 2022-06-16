@@ -12,3 +12,4 @@
 *.exe
 diss/questgen/s2v_old/*
 *.gz
+user-data*
