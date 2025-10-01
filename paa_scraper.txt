@@ -1,3 +1,0 @@
-- Tags für Antworten ermitteln und extern in Configfile speichern
-- Alles in einzelne Module und Funktionen auslagern
-- Anzahl der Frage und Antworten limitieren

@@ -4,18 +4,36 @@ import os
 import random
 import shutil
 import string
+import csv  # Hinzugefügt für das Schreiben von CSV-Dateien
 
 import asyncio
 from playwright.async_api import async_playwright, TimeoutError as PlaywrightTimeoutError
 
 from bs4 import BeautifulSoup
 
-
-def scrape_source(url):
+def scrape_paa(url):
     user_data_dir = create_user_dir()
+    ergebnisse = []  # Liste zum Speichern der Scraping-Ergebnisse
+
+    # Funktion zum Schreiben der gesammelten Daten in eine CSV-Datei
+    def schreibe_in_csv(daten, dateiname='ergebnisse.csv'):
+        if not daten:
+            print("Keine Daten zum Schreiben in die CSV-Datei vorhanden.")
+            return
+
+        # Die Feldnamen (Spaltenüberschriften) aus dem ersten Datensatz extrahieren
+        feldnamen = daten[0].keys()
+
+        with open(dateiname, 'w', newline='', encoding='utf-8') as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=feldnamen)
+
+            writer.writeheader()  # Schreibt die Kopfzeile
+            writer.writerows(daten) # Schreibt alle Datenzeilen
+
+        print(f"Daten wurden erfolgreich in '{dateiname}' gespeichert.")
+
 
     async def main():
-
         async with async_playwright() as p:
             browser = await p.firefox.launch_persistent_context(
                 user_data_dir,
@@ -40,125 +58,105 @@ def scrape_source(url):
 
                 i = counter
 
-                #read questions and answers
+                # Fragen und Antworten lesen
                 for i in range(i, count):
-                    print("\n")
-                    print(i)
-                    row = await rows.nth(i).evaluate("el => el.outerHTML")
-                    soup = BeautifulSoup(row, 'html.parser')
-                    li = soup.find_all("div", class_="z9gcx SVyP1c")
-                    for l in li:
-                        print("\n")
-                        try:
-                            q = l.find("span").get_text()
-                            print(q)
-                        except:
-                            print("no question")
+                    row_html = await rows.nth(i).evaluate("el => el.outerHTML")
+                    soup = BeautifulSoup(row_html, 'html.parser')
 
-                        try:
+                    # Temporäres Dictionary zum Speichern der Daten für die aktuelle Zeile
+                    daten_zeile = {
+                        "Frage": "Keine Frage gefunden",
+                        "Antwort": "Keine Antwort gefunden",
+                        "Quelle": "Keine Quelle gefunden",
+                        "Datum": "Kein Datum gefunden"
+                    }
+
+                    # Extrahiere die Frage
+                    try:
+                        q = soup.find("span").get_text()
+                        daten_zeile["Frage"] = q
+                    except:
+                        pass
+
+                    # Extrahiere die Antwort
+                    try:
+                        a = soup.find("div", class_="LGOjhe")
+                        if a:
+                            a2 = a.find("span", class_="hgKElc").get_text()
+                        else:
                             try:
-                                a = l.find("div", class_="LGOjhe")
-                                a2 = a.find("span", class_="hgKElc").get_text()
+                                a2 = soup.find("div", class_="RqBzHd").get_text()
                             except:
                                 try:
-                                    a2 = l.find("div", class_="RqBzHd").get_text()
+                                    a2 = soup.find("div", class_="NPb5dd").get_text()
                                 except:
-                                    try:
-                                        a2 = l.find("div", class_="NPb5dd").get_text()
-                                    except:
-                                        a2 = l.find("div", class_="Crs1tb").get_text()
-                            print(a2)
-                        except:
-                            print("no answer")
-                            print(soup)
+                                    a2 = soup.find("div", class_="Crs1tb").get_text()
+                        daten_zeile["Antwort"] = a2
+                    except:
+                        pass
 
-                        try:
-                            d = a.find("span", class_="kX21rb ZYHQ7e").get_text()
-                            print(d)
-                        except:
-                            print("no source date")
+                    # Extrahiere das Datum der Quelle
+                    try:
+                        d = a.find("span", class_="kX21rb ZYHQ7e").get_text()
+                        daten_zeile["Datum"] = d
+                    except:
+                        pass
 
-                        try:
-                            try:
-                                s = l.find("div", class_="yuRUbf")
-                                s2 = s.find("a").get("href")
-                            except:
-                                s2 = l.find("a", class_="b0bgab").get("href")
+                    # Extrahiere die Quell-URL
+                    try:
+                        s = soup.find("div", class_="yuRUbf")
+                        if s:
+                            s2 = s.find("a").get("href")
+                        else:
+                            s2 = soup.find("a", class_="b0bgab").get("href")
+                        daten_zeile["Quelle"] = s2
+                    except:
+                        pass
 
-                            print(s2)
-                        except:
-                            print("no source")
+                    # Füge die extrahierten Daten der Ergebnisliste hinzu
+                    ergebnisse.append(daten_zeile)
 
                 return count
 
-
             try:
-                response = await page.goto(url, wait_until="networkidle")
-
+                await page.goto(url, wait_until="networkidle")
             except PlaywrightTimeoutError:
-                response = await page.goto(url, wait_until="load")
+                await page.goto(url, wait_until="load")
 
-            print(response.status)
-
-            print(response.url)
-
-            print(response.headers["content-type"])
-
-            #simulate google search
+            # Google-Suche simulieren
             await page.fill('input[name="q"]', 'cats')
-
             await page.keyboard.press("Enter")
+            await page.wait_for_timeout(2000) # Kurze Pause, damit die Seite laden kann
 
             counter = 0
 
             try:
+                # Führe das Scraping mehrmals durch, um mehr "Ähnliche Fragen" zu öffnen
                 counter = await scrape_questions(page, counter)
                 counter = await scrape_questions(page, counter)
                 counter = await scrape_questions(page, counter)
                 counter = await scrape_questions(page, counter)
                 counter = await scrape_questions(page, counter)
-            except Exceptions as e:
-                print(e)
+            except Exception as e:
+                print(f"Ein Fehler ist aufgetreten: {e}")
 
             if counter > 0:
-                pass
-
-                # while counter < 5:
-                #     counter = await scrape_questions(page, counter)
-                #
-                #
-                # qa_content = await page.locator(".AuVD.cUnQKe").inner_html()
-                #
-                # soup = BeautifulSoup(qa_content, 'html.parser')
-                #
-                #
-
-
-
-                title = await page.title()
-
+                print(f"{len(ergebnisse)} Einträge wurden gesammelt.")
                 await page.wait_for_timeout(3000)
-
-                # f = open("test.html", "w+")
-                # f.write(str(qa_content))
-                # f.close()
-
             else:
-                print("no paa")
+                print("Keine 'Ähnliche Fragen'-Box gefunden.")
 
             await browser.close()
-
             shutil.rmtree(user_data_dir)
-
 
     asyncio.run(main())
 
+    # Nach dem Scraping die gesammelten Daten in die CSV-Datei schreiben
+    schreibe_in_csv(ergebnisse)
 
-#urls = ["https://www.rewe.de/angebote/nationale-angebote/?source=mc_offers", "https://spiegel.de", "https://bild.de", "https://haw-hamburg.de", "https://www.mediamarkt.de/de/product/_samsung-galaxy-a13-64-gb-black-dual-sim-2794341.html", "https://contabo.com/en/", "https://www.google.com/search?q=contabo", "https://www.handelsblatt.com/arts_und_style/literatur/interview-richard-david-precht-seit-corona-erodiert-in-deutschland-einiges/27006328.html", "https://twitter.com/richardprecht"]
 
-#urls = ["https://twitter.com/richardprecht"]
-
-urls = ["https://www.google.com/webhp?hl=en"]
+# Start des Skripts
+urls = ["https://www.google.com/webhp?hl=de"] # Sprache auf Deutsch geändert für relevantere Ergebnisse
 
 for url in urls:
-    scrape_source(url)
+    scrape_paa(url)
